@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>aspnet-WebAPI_Server_Auth-E2C695D6-EE5D-4B3A-89F6-EC78D6C7ABB4</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CloudStructures" Version="3.2.0" />
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.14" />
+        <PackageReference Include="Microsoft.Identity.Web" Version="1.1.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+        <PackageReference Include="MySqlConnector" Version="2.1.7" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\LoginController\Controllers" />
+      <Folder Include="Areas\LoginController\Data" />
+      <Folder Include="Areas\LoginController\Models" />
+      <Folder Include="Areas\LoginController\Views" />
+      <Folder Include="Models" />
+      <Folder Include="Services" />
+    </ItemGroup>
+
+</Project>
