@@ -17,35 +17,43 @@ namespace WebAPI_Server.Controllers
     public class MailBoxController : ControllerBase
     {
         [HttpPost]
-        public async Task<MailBoxCheckPacketRes> CheckMailBox(MailBoxCheckPacketReq req)
+        public async Task<List<MailBoxCheckPacketRes>> CheckMailBox(MailBoxCheckPacketReq req)
         {
-            MailBoxCheckPacketRes response = new MailBoxCheckPacketRes() {Result = ErrorCode.NONE};
+            List<MailBoxCheckPacketRes> response = new List<MailBoxCheckPacketRes>();
+            response.Add(new MailBoxCheckPacketRes() {Result = ErrorCode.NONE});
             
             bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
 
             if (isValidate == false)
             {
-                response.Result = ErrorCode.JwtToekn_Fail_Auth;
+                response[0].Result = ErrorCode.JwtToekn_Fail_Auth;
                 return response;
             }
-
+            
             var token = JwtTokenProcessor.DecipherJwtAccessToken(req.JwtAccessToken);
             string userID = token.Subject;
-
+            
             using (MySqlConnection connection = await DBManager.GetGameDBConnection())
             {
-                var mailInfo = await connection.QuerySingleOrDefaultAsync<DBMailBoxInfo>("select MailBoxID, senderID, kind, Item, ItemCount from MailBox where MailBoxID = @mailBoxID",
-                         new
-                         {
-                             MailBoxID = userID
-                         });
-                
-                response.MailBoxID = mailInfo.MailBoxID;
-                response.senderID = mailInfo.senderID;
-                response.kind = mailInfo.kind;
-                response.Item = mailInfo.Item;
-                response.ItemCount = mailInfo.ItemCount;
-                
+                try
+                {
+                    var mailInfo = await connection.QueryAsync<MailBoxCheckPacketRes>(
+                        "select MailBoxID, senderID, kind, Item, ItemCount from MailBox where MailBoxID = @mailBoxID",
+                        new
+                        {
+                            MailBoxID = userID
+                        });
+
+                    response.Clear();
+                    response.AddRange(mailInfo);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    response[0].Result = ErrorCode.MailBox_Check_Fail_Exception;
+                    return response;
+                }
+
                 return response;
             }
         }

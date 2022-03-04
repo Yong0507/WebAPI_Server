@@ -36,7 +36,7 @@ namespace WebAPI_Server_Auth.Controllers
                 try
                 {
                     // 아이템 정보 UPDATE
-                    var count = await connection.ExecuteAsync(
+                    var UpdateItem = await connection.ExecuteAsync(
                         @"UPDATE MailBox set ItemCount = ItemCount + 1 where Item = @Item AND MailBoxID = @MailBoxID",
                         new
                         {
@@ -44,24 +44,30 @@ namespace WebAPI_Server_Auth.Controllers
                             Item = req.Item,
                         });
 
-                    Console.WriteLine("UPDATE Item 리턴 값 : " + count);
-                    // 0이면 UPDATE 실패니까 이때 INSERT 하면 된다 !!!! 오케이
+                    // UPDATE 실패(0을 리턴) --> 아이템 존재하지 않음 --> 이때 INSERT 
+                    // ON DUPLICATE KEY UPDATE 활용하려했지만 --> Item의 값을 PK로 두는 것은 아니라고 생각했음(Unique하지 않고 NULL 일수도 있기 때문)
                     
                     // 아이템 정보 INSERT
-                    var count1 = await connection.ExecuteAsync(
-                        @"INSERT MailBox(MailBoxID, senderID, kind, Item, ItemCount) Values(@MailBoxID, @senderID, @kind, @Item, @ItemCount)",
-                        new
+                    if (UpdateItem != 1)
+                    {
+                        var InsertItem = await connection.ExecuteAsync(
+                            @"INSERT INTO MailBox(MailBoxID, senderID, kind, Item, ItemCount) SELECT @MailBoxID, @senderID, @kind, @Item, @ItemCount FROM DUAL " +
+                                 "WHERE EXISTS(select * from MailBox where MailBoxID = @MailBoxID)",
+                            new
+                            {
+                                MailBoxID = userID,
+                                senderID = "Admin",
+                                kind = KIND.GIFT,
+                                Item = req.Item,
+                                ItemCount = 1
+                            });
+                        
+                        if (InsertItem != 1)
                         {
-                            MailBoxID = userID,
-                            senderID = "Admin",
-                            kind = KIND.NOTICE,
-                            Item = "Welcome Item3",
-                            ItemCount = 1
-                        });
-
-
-                    
-                    
+                            response.Result = ErrorCode.MailBox_GetItem_Fail_Insert;
+                            return response;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -73,9 +79,5 @@ namespace WebAPI_Server_Auth.Controllers
                 return response;
             }
         }
-        
     }
-    
-    
-    
 }

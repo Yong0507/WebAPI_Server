@@ -30,7 +30,7 @@ namespace WebAPI_Server.Controllers
                 try
                 {
                     // 계정 기본 정보 INSERT
-                    await connection.ExecuteAsync(
+                     await connection.ExecuteAsync(
                         @"INSERT Users(userID, salt, hashingPW) Values(@userID, @salt, @hashingPW)",
                         new
                         {
@@ -46,16 +46,15 @@ namespace WebAPI_Server.Controllers
                         {
                             MailBoxID = req.userID,
                             senderID = "Admin",
-                            kind = KIND.NOTICE,
+                            kind = KIND.GIFT,
                             Item = "Welcome Item",
                             ItemCount = 1
                         });
                 }
                 catch (Exception ex)
                 {
-                    // 기본적으로 Primary Key를 설정했기에 중복 키 문제 발생해도 catch문으로 오게 됨
-                    // 중복 키 or 문자열 초과 등에 대한 문제 발생을 따로 구분은 하지 않음
-                    // 출력값으로 어떠한 Error인지 알려줌
+                    // 중복 키 or 문자열 초과 문제 발생하면 곧바로 catch문으로 오게 됨
+                    // --> 콘솔에서 Error 발생 원인 알려줌
                     
                     Console.WriteLine(ex.ToString());
                     response.Result = ErrorCode.Create_Account_Fail_Exception;

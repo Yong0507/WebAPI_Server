@@ -1,4 +1,6 @@
-﻿namespace WebAPI_Server.DB
+﻿using System.Collections.Generic;
+
+namespace WebAPI_Server.DB
 {
     public enum KIND
     {
@@ -89,18 +91,33 @@
         public ErrorCode Result { get; set; }
     }
 
-    public class EndingPacketReq
+    public class StageClearPacketReq
     {
-        public string userID { get; set; }
         public string JwtAccessToken { get; set; }
-        public int score { get; set; }
+        public int Score { get; set; }
     }
 
-    public class EndingPacketRes
+    public class StageClearPacketRes
     { 
+        public ErrorCode Result { get; set; }
+    }
+
+    public class MyRankingPacketReq
+    {
+        public string JwtAccessToken { get; set; }
+    }
+
+    public class MyRankingPacketRes
+    {
+        public ErrorCode Result { get; set; }
+        public long MyRanking { get; set; }
+        public string NearRanking { get; set; }
+    }
+
+
+    public class UsersRankingPacketRes
+    {
+        public ErrorCode Result { get; set; }
         public string RankingList { get; set; }
     }
-
-
-
 }

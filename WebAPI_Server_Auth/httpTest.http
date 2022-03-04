@@ -2,8 +2,8 @@ POST https://localhost:5001/CreateAccount
 Content-Type: application/json
 
 {
-  "userID":"yongjin96",
-  "userPW":"dydwls96"
+  "userID":"yongjin01",
+  "userPW":"dydwls01"
 }
 
 ###
@@ -11,8 +11,8 @@ POST https://localhost:5001/Login
 Content-Type: application/json
 
 {
-  "userID":"yongjin96",
-  "userPW":"dydwls96"
+  "userID":"yongjin01",
+  "userPW":"dydwls01"
 }
 
 ###
@@ -20,16 +20,38 @@ POST https://localhost:5001/MailBoxCheck
 Content-Type: application/json
 
 {
-  "jwtAccessToken": "~~~~..."
+  "jwtAccessToken": "~~~~"
 }
 
 ###
-POST https://localhost:5001/MailBox/GetItem
+POST https://localhost:5001/MailBoxGetItem
 Content-Type: application/json
         
 {
-  "userID": "yongjin96",
-  "jwtAccessToken": "~~~~...",
+  "jwtAccessToken": "~~~~",
   "Item" : "Welcome Item"
 }
 
+### 
+POST https://localhost:5001/StageClear
+Content-Type: application/json
+        
+{
+  "jwtAccessToken": "~~~~",
+  "score" : 50
+}
+
+###
+POST https://localhost:5001/UsersRanking 
+
+
+###
+POST https://localhost:5001/MyRanking
+Content-Type: application/json
+
+{
+  "jwtAccessToken": "~~~~"
+}
+
+
+// 40 30 70 20 //
