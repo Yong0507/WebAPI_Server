@@ -35,39 +35,59 @@ namespace WebAPI_Server_Auth.Controllers
             {
                 try
                 {
-                    // 아이템 정보 UPDATE
-                    var UpdateItem = await connection.ExecuteAsync(
-                        @"UPDATE MailBox set ItemCount = ItemCount + 1 where Item = @Item AND MailBoxID = @MailBoxID",
+                    var Item = await connection.ExecuteAsync(
+                        @"INSERT INTO MailBox (MailBoxID, senderID, kind, Item, ItemCount) Values(@MailBoxID, @senderID, @kind, @Item, @ItemCount) 
+                             ON DUPLICATE KEY UPDATE ItemCount = ItemCount + 1",
                         new
                         {
+
                             MailBoxID = userID,
+                            senderID = "Admin",
+                            kind = KIND.GIFT,
                             Item = req.Item,
+                            ItemCount = 1
                         });
 
-                    // UPDATE 실패(0을 리턴) --> 아이템 존재하지 않음 --> 이때 INSERT 
-                    // ON DUPLICATE KEY UPDATE 활용하려했지만 --> Item의 값을 PK로 두는 것은 아니라고 생각했음(Unique하지 않고 NULL 일수도 있기 때문)
-                    
-                    // 아이템 정보 INSERT
-                    if (UpdateItem != 1)
+                    // 반환값 1 -> INSERT,   반환값 2 -> UPDATE
+                    if (Item != 1 && Item != 2)
                     {
-                        var InsertItem = await connection.ExecuteAsync(
-                            @"INSERT INTO MailBox(MailBoxID, senderID, kind, Item, ItemCount) SELECT @MailBoxID, @senderID, @kind, @Item, @ItemCount FROM DUAL " +
-                                 "WHERE EXISTS(select * from MailBox where MailBoxID = @MailBoxID)",
-                            new
-                            {
-                                MailBoxID = userID,
-                                senderID = "Admin",
-                                kind = KIND.GIFT,
-                                Item = req.Item,
-                                ItemCount = 1
-                            });
-                        
-                        if (InsertItem != 1)
-                        {
-                            response.Result = ErrorCode.MailBox_GetItem_Fail_Insert;
-                            return response;
-                        }
+                        response.Result = ErrorCode.MailBox_GetItem_Fail_Insert_Update;
+                        return response;
                     }
+                    
+                    // // 아이템 정보 UPDATE
+                    // var UpdateItem = await connection.ExecuteAsync(
+                    //     @"UPDATE MailBox set ItemCount = ItemCount + 1 where Item = @Item AND MailBoxID = @MailBoxID",
+                    //     new
+                    //     {
+                    //         MailBoxID = userID,
+                    //         Item = req.Item,
+                    //     });
+                    //
+                    // // UPDATE 실패(0을 리턴) --> 아이템 존재하지 않음 --> 이때 INSERT 
+                    // // ON DUPLICATE KEY UPDATE 활용하려했지만 --> Item의 값을 PK, UK로 두는 것은 아니라고 생각했음(Unique하지 않고 NULL 일수도 있기 때문)
+                    //
+                    // // 아이템 정보 INSERT
+                    // if (UpdateItem != 1)
+                    // {
+                    //     var InsertItem = await connection.ExecuteAsync(
+                    //         @"INSERT INTO MailBox(MailBoxID, senderID, kind, Item, ItemCount) SELECT @MailBoxID, @senderID, @kind, @Item, @ItemCount FROM DUAL " +
+                    //              "WHERE EXISTS(select * from MailBox where MailBoxID = @MailBoxID)",
+                    //         new
+                    //         {
+                    //             MailBoxID = userID,
+                    //             senderID = "Admin",
+                    //             kind = KIND.GIFT,
+                    //             Item = req.Item,
+                    //             ItemCount = 1
+                    //         });
+                    //     
+                    //     if (InsertItem != 1)
+                    //     {
+                    //         response.Result = ErrorCode.MailBox_GetItem_Fail_Insert;
+                    //         return response;
+                    //     }
+                    // }
                 }
                 catch (Exception ex)
                 {
