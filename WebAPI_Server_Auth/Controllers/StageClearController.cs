@@ -28,7 +28,13 @@ namespace WebAPI_Server_Auth.Controllers
                 response.Result = ErrorCode.JwtToekn_Fail_Auth;
                 return response;
             }
-            
+
+            if (req.Score < 0)
+            {
+                response.Result = ErrorCode.Stage_Clear_Fail_Negative_Score;
+                return response;
+            }
+
             var token = JwtTokenProcessor.DecipherJwtAccessToken(req.JwtAccessToken);
             string userID = token.Subject;
             

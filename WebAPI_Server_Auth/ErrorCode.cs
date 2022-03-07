@@ -18,6 +18,8 @@
 
         My_Ranking_Fail_Exception = 18,
         
+        Stage_Clear_Fail_Negative_Score = 19,
+        
         JwtToekn_Fail_Auth = 99,
     }
 }
