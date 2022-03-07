@@ -16,13 +16,21 @@ namespace WebAPI_Server_Auth.Controllers
     public class UsersRankingController : ControllerBase
     {
         [HttpPost]
-        public async Task<UsersRankingPacketRes> UsersRanking()
+        public async Task<UsersRankingPacketRes> UsersRanking(UsersRankingPacketReq req)
         {
             UsersRankingPacketRes response = new UsersRankingPacketRes() {Result = ErrorCode.NONE};
 
+            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
+
+            if (isValidate == false)
+            {
+                response.Result = ErrorCode.JwtToekn_Fail_Auth;
+                return response;
+            }
+
             var RedisData = new RedisSortedSet<string>(DBManager.RedisConn, "Ranking", null);
             var UsersRanking = await RedisData.RangeByScoreAsync(order: StackExchange.Redis.Order.Descending);
-
+            
             if (UsersRanking.Length < 1)
             {
                 response.Result = ErrorCode.Users_Ranking_Fail_Nothing_Data;

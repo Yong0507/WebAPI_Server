@@ -42,8 +42,12 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/UsersRanking 
+POST https://localhost:5001/UsersRanking
+Content-Type: application/json
 
+{
+  "jwtAccessToken": "~~~~"
+}
 
 ###
 POST https://localhost:5001/MyRanking
@@ -53,5 +57,5 @@ Content-Type: application/json
   "jwtAccessToken": "~~~~"
 }
 
-
+###
 // 40 30 70 20 //

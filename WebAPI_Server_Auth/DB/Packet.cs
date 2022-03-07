@@ -114,6 +114,10 @@ namespace WebAPI_Server.DB
         public string NearRanking { get; set; }
     }
 
+    public class UsersRankingPacketReq
+    {
+        public string JwtAccessToken { get; set; }
+    }
 
     public class UsersRankingPacketRes
     {

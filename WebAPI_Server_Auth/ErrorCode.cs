@@ -9,7 +9,7 @@
         Login_Fail_WrongPW = 12,
         Login_Fail_Exception = 13,
         
-        MailBox_GetItem_Fail_Insert = 14,
+        MailBox_GetItem_Fail_Insert_Update = 14,
         MailBox_GetItem_Fail_Exception = 15,
         
         MailBox_Check_Fail_Exception = 16,
