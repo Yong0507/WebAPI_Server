@@ -26,7 +26,6 @@ namespace WebAPI_Server.MiddleWares
             if (context.Request.Path != "/CreateAccount" &&
                 context.Request.Path != "/Login")
             {
-
                 StreamReader bodystream = new StreamReader(context.Request.Body, Encoding.UTF8);
                 string body = bodystream.ReadToEndAsync().Result;
                 var obj = (JObject) JsonConvert.DeserializeObject(body);

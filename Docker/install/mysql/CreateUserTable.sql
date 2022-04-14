@@ -8,9 +8,9 @@ CREATE TABLE `Users`(
 );
 
 CREATE TABLE `MailBox`(
-    MailBoxID varchar(50),
+    MailBoxID varchar(50) NOT NULL PRIMARY KEY,
     senderID varchar(50),
     kind int,
-    Item varchar(50) UNIQUE KEY,
+    Item varchar(50),
     ItemCount int
 );

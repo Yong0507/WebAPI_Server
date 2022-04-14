@@ -40,12 +40,10 @@ namespace WebAPI_Server
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //app.UseHttpsRedirection();
-
+            
             app.UseRouting();
 
-            //app.UseCheckUserTokenMiddleWare();
+            app.UseCheckUserTokenMiddleWare();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
