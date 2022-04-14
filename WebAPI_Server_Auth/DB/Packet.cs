@@ -41,7 +41,12 @@ namespace WebAPI_Server.DB
     // --------------------------- //
     // ----------Packet----------- //
     // --------------------------- //
-    
+
+    public class ResBase
+    {
+        public ErrorCode Result { get; set; }
+    }
+
     public class CreateAccountPacketReq
     {
         public string userID { get; set; }

@@ -19,15 +19,7 @@ namespace WebAPI_Server_Auth.Controllers
         public async Task<UsersRankingPacketRes> UsersRanking(UsersRankingPacketReq req)
         {
             UsersRankingPacketRes response = new UsersRankingPacketRes() {Result = ErrorCode.NONE};
-
-            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
-
-            if (isValidate == false)
-            {
-                response.Result = ErrorCode.JwtToekn_Fail_Auth;
-                return response;
-            }
-
+            
             var RedisData = new RedisSortedSet<string>(DBManager.RedisConn, "Ranking", null);
             var UsersRanking = await RedisData.RangeByScoreAsync(order: StackExchange.Redis.Order.Descending);
             

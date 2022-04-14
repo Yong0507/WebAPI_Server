@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebAPI_Server.DB;
+using WebAPI_Server.MiddleWares;
 
 namespace WebAPI_Server
 {
@@ -43,6 +44,8 @@ namespace WebAPI_Server
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //app.UseCheckUserTokenMiddleWare();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

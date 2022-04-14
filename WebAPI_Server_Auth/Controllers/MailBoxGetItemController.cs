@@ -20,14 +20,6 @@ namespace WebAPI_Server_Auth.Controllers
         {
             MailBoxItemPacketRes response = new MailBoxItemPacketRes() {Result = ErrorCode.NONE};
             
-            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
-
-            if (isValidate == false)
-            {
-                response.Result = ErrorCode.JwtToekn_Fail_Auth;
-                return response;
-            }
-
             var token = JwtTokenProcessor.DecipherJwtAccessToken(req.JwtAccessToken);
             string userID = token.Subject;
             

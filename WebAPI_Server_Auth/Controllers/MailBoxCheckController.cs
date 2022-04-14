@@ -22,14 +22,6 @@ namespace WebAPI_Server.Controllers
             List<MailBoxCheckPacketRes> response = new List<MailBoxCheckPacketRes>();
             response.Add(new MailBoxCheckPacketRes() {Result = ErrorCode.NONE});
             
-            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
-
-            if (isValidate == false)
-            {
-                response[0].Result = ErrorCode.JwtToekn_Fail_Auth;
-                return response;
-            }
-            
             var token = JwtTokenProcessor.DecipherJwtAccessToken(req.JwtAccessToken);
             string userID = token.Subject;
             

@@ -18,15 +18,7 @@ namespace WebAPI_Server_Auth.Controllers
         public async Task<MyRankingPacketRes> MyRanking(MyRankingPacketReq req)
         {
             MyRankingPacketRes response = new MyRankingPacketRes() {Result = ErrorCode.NONE};
-
-            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
-
-            if (isValidate == false)
-            {
-                response.Result = ErrorCode.JwtToekn_Fail_Auth;
-                return response;
-            }
-
+            
             var token = JwtTokenProcessor.DecipherJwtAccessToken(req.JwtAccessToken);
             string userID = token.Subject;
             

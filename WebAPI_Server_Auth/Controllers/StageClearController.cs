@@ -21,14 +21,6 @@ namespace WebAPI_Server_Auth.Controllers
         {
             StageClearPacketRes response = new StageClearPacketRes() {Result = ErrorCode.NONE};
 
-            bool isValidate = JwtTokenProcessor.ValidateJwtAccessToken(req.JwtAccessToken, JwtTokenProcessor.UniqueKey);
-            
-            if (isValidate == false) 
-            {
-                response.Result = ErrorCode.JwtToekn_Fail_Auth;
-                return response;
-            }
-
             if (req.Score < 0)
             {
                 response.Result = ErrorCode.Stage_Clear_Fail_Negative_Score;
