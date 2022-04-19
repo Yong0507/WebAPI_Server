@@ -43,8 +43,19 @@ namespace WebAPI_Server
             
             app.UseRouting();
 
-            app.UseCheckUserTokenMiddleWare();
+            // app.UseCheckUserTokenMiddleWare(); --> MiddlewareExtentions 모든 미들웨어를 보는것이 편하다면 이 방법을 사용
+            //                                    --> 이 방법에서는 미들웨어 통과 여부 검사를 Startup이 아닌 각자의 Middleware 스크립트에서 정의
             
+            
+            app.UseWhen(
+                context => context.Request.Path != "/CreateAccount" &&
+                                   context.Request.Path != "/Login",
+                appbuilder =>
+                {
+                    appbuilder.UseMiddleware<CheckJwtTokenMiddleWare>();
+                }
+            );
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

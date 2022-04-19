@@ -21,6 +21,16 @@ namespace WebAPI_Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UsePort();
                 });
+    }
+    
+    internal static class ProgramExtensions
+    {
+        public static IWebHostBuilder UsePort(this IWebHostBuilder builder)
+        {
+            builder.UseUrls("https://0.0.0.0:8080");
+            return builder;
+        }
     }
 }

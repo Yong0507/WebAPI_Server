@@ -1,4 +1,4 @@
-POST https://localhost:5001/CreateAccount
+POST https://0.0.0.0:8080/CreateAccount
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/Login
+POST https://0.0.0.0:8080/Login
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/MailBoxCheck
+POST https://0.0.0.0:8080/MailBoxCheck
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/MailBoxGetItem
+POST https://0.0.0.0:8080/MailBoxGetItem
 Content-Type: application/json
         
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 
 ### 
-POST https://localhost:5001/StageClear
+POST https://0.0.0.0:8080/StageClear
 Content-Type: application/json
         
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/UsersRanking
+POST https://0.0.0.0:8080/UsersRanking
 Content-Type: application/json
 
 {
@@ -50,7 +50,7 @@ Content-Type: application/json
 }
 
 ###
-POST https://localhost:5001/MyRanking
+POST https://0.0.0.0:8080/MyRanking
 Content-Type: application/json
 
 {
